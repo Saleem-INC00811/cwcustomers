@@ -1,0 +1,28 @@
+<mvc:View controllerName="com.msb.nwcustomers.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <VBox id="idMCWrapper" class="sapUiContentPadding MsgStripContWrapper" direction="Column" alignItems="End">
+                <Button icon="sap-icon://bell" press="onShow">
+                    <customData>
+                        <BadgeCustomData key="badge" value="{=${mNotification>/aMsg}.length}" visible="{=${mNotification>/aMsg}.length > 0}"/>
+                    </customData>
+                </Button>
+                <VBox id="idVBoxMsgStripCont" class="sapUiContentPadding MsgStripCont" direction="Column"
+                    items="{mNotification>/aMsg}">
+                    <MessageStrip
+                        text="{mNotification>msg}"
+                        type="{mNotification>type}"
+                        enableFormattedText="true"
+                        showIcon="true"
+                        showCloseButton="true"
+                        class="MsgStrip sapUiSmallMarginTopBottom"
+                        close="onCloseMsgStrip"
+                    />
+                </VBox>
+            </VBox>
+            <Text text="A very big praragraph. to demonstrate if the container is overlap with notification wrapper." />
+        </content>
+    </Page>
+</mvc:View>

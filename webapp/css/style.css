@@ -1,0 +1,16 @@
+/* Enter your custom styles here */
+.MsgStripContWrapper{
+    position:absolute;
+    right:0.15rem;
+    z-index:99999;
+    margin:0.7rem;
+  }
+    
+  .MsgStripCont {
+    display: none;
+  }
+
+  
+  .MsgStripCont.active:has(.MsgStrip) {
+    display: block;
+  }
