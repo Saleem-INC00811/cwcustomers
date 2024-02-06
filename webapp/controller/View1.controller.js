@@ -12,26 +12,6 @@ sap.ui.define([
 
         return Controller.extend("com.msb.nwcustomers.controller.View1", {
             onInit: function () {
-
-                this.oWS = new WebSocket("wss://suncor-websocket-test.cfapps.us20.hana.ondemand.com/webSocket/Sam");
-                this.oWS.attachOpen(function(oWSEvent){
-                    console.log("WS Connection Open Successful with user Sam");
-                });
-
-                this.oWS.attachClose(function(oWSEvent){
-                    console.log("WS Connection Close Successful with user Sam");
-                });
-
-                this.oWS.attachError(function(oWSEvent){
-                    console.log("WS Connection Error");
-                });
-
-                this.oWS.attachMessage(function(oWSEvent){
-                    console.log("WS Message received for user Sam");
-                    console.log(oWSEvent.getParameters().data);
-                });
-
-
                 let oMdlNotification = new JSONModel({
                     "aMsg" : [
                         {
@@ -53,6 +33,38 @@ sap.ui.define([
                     ]
                 });
                 this.getView().setModel(oMdlNotification, "mNotification");
+
+                let aMsg = $.extend(true,[],oMdlNotification.getProperty("/aMsg"));
+
+                this.oWS = new WebSocket("wss://suncor-websocket-test.cfapps.us20.hana.ondemand.com/webSocket/Sam");
+                this.oWS.attachOpen(function(oWSEvent){
+                    console.log("WS Connection Open Successful with user Sam");
+                });
+
+                this.oWS.attachClose(function(oWSEvent){
+                    console.log("WS Connection Close Successful with user Sam");
+                });
+
+                this.oWS.attachError(function(oWSEvent){
+                    console.log("WS Connection Error");
+                });
+
+                this.oWS.attachMessage(function(oWSEvent){
+                    console.log("WS Message received for user Sam");
+                    console.log(oWSEvent.getParameters().data);
+                    let oNotif = oWSEvent.getParameters().data;
+                    if(oNotif){
+                        aMsg.unshift({
+                            "type" : oNotif.type ? oNotif.type : "None",
+                            "msg"  : oNotif.message ? oNotif.message : oNotif
+                        });
+                        oMdlNotification.setProperty("/aMsg",aMsg);
+                    }
+                    
+                });
+
+
+                
             },
 
             onCloseMsgStrip: function(oEvent){
